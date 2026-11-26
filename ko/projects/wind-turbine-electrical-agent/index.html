@@ -1,0 +1,132 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Nordex 풍력발전기 전기 도면 기반 고장 대응 에이전트 · 이진호</title><meta name="description" content="노르덱스의 현장 엔지니어는 수백 쪽짜리 전기 회로도를 보며 터빈 고장에 대응합니다. 전기 엔지니어들을 위한 소프트웨어 (EPLAN) 에서 내보낸 도면 PDF와 XML 파일을 이해하여 지식 그래프로 바꾸는 builder pipeline 을 구축하였습니다. 배선을 미리 계산해 두는 PostgreSQL 저장소와, SQL을 직접 쓰지 않고 정해진 도구로 답하는 에이전트도 개발했습니다. 현재 개발 중입니다."><meta property="og:title" content="Nordex 풍력발전기 전기 도면 기반 고장 대응 에이전트 · 이진호"><meta property="og:description" content="노르덱스의 현장 엔지니어는 수백 쪽짜리 전기 회로도를 보며 터빈 고장에 대응합니다. 전기 엔지니어들을 위한 소프트웨어 (EPLAN) 에서 내보낸 도면 PDF와 XML 파일을 이해하여 지식 그래프로 바꾸는 builder pipeline 을 구축하였습니다. 배선을 미리 계산해 두는 PostgreSQL 저장소와, SQL을 직접 쓰지 않고 정해진 도구로 답하는 에이전트도 개발했습니다. 현재 개발 중입니다."><meta property="og:type" content="website"><meta property="og:locale" content="ko_KR"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="alternate" hreflang="en" href="https://jinroylee.github.io/projects/wind-turbine-electrical-agent/"><link rel="alternate" hreflang="ko" href="https://jinroylee.github.io/ko/projects/wind-turbine-electrical-agent/"><link rel="alternate" hreflang="x-default" href="https://jinroylee.github.io/projects/wind-turbine-electrical-agent/"><script>
+      (() => {
+        let theme;
+        try {
+          theme = localStorage.getItem('theme');
+        } catch {}
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script><script>
+      (() => {
+        const path = (url) => new URL(url, location.href).pathname.replace(/\/$/, '');
+        const nameCardFor = (url) => {
+          if (!url) return null;
+          const target = path(url);
+          for (const title of document.querySelectorAll('[data-vt-name]')) {
+            const link = title.querySelector('a');
+            if (link && path(link.href) === target) {
+              title.style.viewTransitionName = title.dataset.vtName;
+              return title;
+            }
+          }
+          return null;
+        };
+        const clearLater = (transition, title) => {
+          if (transition && title) transition.finished.finally(() => (title.style.viewTransitionName = ''));
+        };
+        addEventListener('pageswap', (event) => {
+          if (event.viewTransition) clearLater(event.viewTransition, nameCardFor(event.activation?.entry?.url));
+        });
+        addEventListener('pagereveal', (event) => {
+          if (event.viewTransition && window.navigation) clearLater(event.viewTransition, nameCardFor(navigation.activation?.from?.url));
+        });
+      })();
+    </script><link rel="stylesheet" href="/_astro/BaseLayout.Dzwp6U09.css"><link rel="stylesheet" href="/_astro/routes.B-8slpUj.css"></head><body><a class="skip-link" href="#main">본문으로 건너뛰기</a><header class="site-header" data-site-header data-astro-cid-nen7h5rs><div class="container site-header__inner" data-astro-cid-nen7h5rs><a class="brand" href="/ko/" data-astro-cid-nen7h5rs><span class="brand__mark" aria-hidden="true" data-astro-cid-nen7h5rs>JL</span>이진호</a><nav class="site-nav" aria-label="주요 메뉴" data-astro-cid-nen7h5rs><ul data-astro-cid-nen7h5rs><li data-astro-cid-nen7h5rs><a href="/ko/#experience" data-astro-cid-nen7h5rs>경력</a></li><li data-astro-cid-nen7h5rs><a href="/ko/projects" aria-current="page" data-astro-cid-nen7h5rs>프로젝트</a></li><li data-astro-cid-nen7h5rs><a href="/ko/#about" data-astro-cid-nen7h5rs>소개</a></li><li data-astro-cid-nen7h5rs><a href="/ko/resume" data-astro-cid-nen7h5rs>이력서</a></li><li data-astro-cid-nen7h5rs><a href="/ko/#contact" data-astro-cid-nen7h5rs>연락처</a></li></ul><span class="site-nav__indicator" aria-hidden="true" data-nav-indicator data-astro-cid-nen7h5rs></span></nav><div class="tools" data-astro-cid-nen7h5rs><a class="lang-switch" href="/projects/wind-turbine-electrical-agent/" hreflang="en" lang="en" aria-label="이 페이지를 영어로 보기" data-astro-cid-nen7h5rs>English</a><button class="theme-toggle" type="button" hidden data-theme-toggle data-label-dark="다크 모드로 전환" data-label-light="라이트 모드로 전환" aria-label="다크 모드로 전환" data-astro-cid-nen7h5rs><svg class="theme-toggle__moon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" data-astro-cid-nen7h5rs><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" data-astro-cid-nen7h5rs></path></svg><svg class="theme-toggle__sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" data-astro-cid-nen7h5rs><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8" data-astro-cid-nen7h5rs></circle><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" data-astro-cid-nen7h5rs></path></svg></button></div></div></header><script type="module">var e=document.documentElement,t=document.querySelector(`[data-site-header]`),n=t.querySelector(`[data-theme-toggle]`),r=()=>{let t=e.dataset.theme===`dark`;n.setAttribute(`aria-label`,(t?n.dataset.labelLight:n.dataset.labelDark)??``)};r(),n.hidden=!1;var i=matchMedia(`(prefers-reduced-motion: reduce)`),a=()=>{let t=e.dataset.theme===`dark`?`light`:`dark`;e.classList.add(`theme-switching`),e.dataset.theme=t;try{localStorage.setItem(`theme`,t)}catch{}r(),n.removeAttribute(`data-flipped`),requestAnimationFrame(()=>requestAnimationFrame(()=>{e.classList.remove(`theme-switching`),n.setAttribute(`data-flipped`,``)}))};n.addEventListener(`click`,()=>{if(!document.startViewTransition||i.matches){a();return}let t=n.getBoundingClientRect(),r=t.left+t.width/2,o=t.top+t.height/2,s=Math.hypot(Math.max(r,innerWidth-r),Math.max(o,innerHeight-o));e.classList.add(`theme-vt`);let c=document.startViewTransition(a);c.ready.then(()=>{e.animate({clipPath:[`circle(0px at ${r}px ${o}px)`,`circle(${s}px at ${r}px ${o}px)`]},{duration:480,easing:`cubic-bezier(0.4, 0, 0.2, 1)`,pseudoElement:`::view-transition-new(root)`})}).catch(()=>{}),c.finished.finally(()=>e.classList.remove(`theme-vt`))});var o=[...t.querySelectorAll(`.site-nav a`)].map(e=>{let t=new URL(e.href),n=t.pathname===location.pathname&&t.hash?document.getElementById(t.hash.slice(1)):null;return n?{link:e,section:n}:null}).filter(e=>e!==null),s=t.querySelector(`.site-nav`),c=t.querySelector(`[data-nav-indicator]`),l=null,u=e=>{if(!e){c.removeAttribute(`data-on`),l=null;return}let t=parseFloat(getComputedStyle(e).paddingLeft),n=s.getBoundingClientRect(),r=e.getBoundingClientRect();l||c.setAttribute(`data-instant`,``),c.style.setProperty(`--x`,`${r.left-n.left+t}px`),c.style.setProperty(`--y`,`${r.bottom-n.top}px`),c.style.setProperty(`--w`,`${r.width-2*t}px`),c.offsetWidth,c.removeAttribute(`data-instant`),c.setAttribute(`data-on`,``),l=e},d=!1,f=()=>{d=!1,t.toggleAttribute(`data-scrolled`,scrollY>8);let e=innerHeight*.35,n=null;for(let{link:t,section:r}of o){let i=r.getBoundingClientRect(),a=i.top<=e&&i.bottom>e;t.toggleAttribute(`data-active`,a),a&&(n=t)}n!==l&&u(n)};addEventListener(`resize`,()=>{l=null,f()}),addEventListener(`scroll`,()=>{d||(d=!0,requestAnimationFrame(f))},{passive:!0}),f();</script><main id="main" tabindex="-1"><div class="progress no-print" aria-hidden="true" data-astro-cid-4qnrviu5></div><article class="container case" data-anchor-label="이 섹션 링크 복사" data-anchor-done="링크를 복사했습니다" data-astro-cid-4qnrviu5><div class="case__layout" data-astro-cid-4qnrviu5><div class="case__main" data-astro-cid-4qnrviu5><p class="case__back no-print" data-astro-cid-4qnrviu5><a href="/ko/projects" data-astro-cid-4qnrviu5><span aria-hidden="true" data-astro-cid-4qnrviu5>←</span> 전체 프로젝트</a></p><header class="case__header" data-astro-cid-4qnrviu5><p class="meta" data-astro-cid-4qnrviu5>마키나락스 · 노르덱스 · 2026.09 – 현재</p><h1 class="case__title" style="view-transition-name: project-wind-turbine-electrical-agent" data-astro-cid-4qnrviu5>Nordex 풍력발전기 전기 도면 기반 고장 대응 에이전트</h1><p class="case__summary" data-astro-cid-4qnrviu5>노르덱스의 현장 엔지니어는 수백 쪽짜리 전기 회로도를 보며 터빈 고장에 대응합니다. 전기 엔지니어들을 위한 소프트웨어 (EPLAN) 에서 내보낸 도면 PDF와 XML 파일을 이해하여 지식 그래프로 바꾸는 builder pipeline 을 구축하였습니다. 배선을 미리 계산해 두는 PostgreSQL 저장소와, SQL을 직접 쓰지 않고 정해진 도구로 답하는 에이전트도 개발했습니다. 현재 개발 중입니다.</p></header><section class="facts" aria-label="프로젝트 정보" data-astro-cid-4qnrviu5><ul class="metrics metrics--large" aria-label="주요 성과" data-astro-cid-ic3gsucs><li data-astro-cid-ic3gsucs><span class="metrics__value" data-astro-cid-ic3gsucs>87,975</span><span class="metrics__label" data-astro-cid-ic3gsucs>418쪽 도면에서 만든, 출처가 붙은 fact</span></li><li data-astro-cid-ic3gsucs><span class="metrics__value" data-astro-cid-ic3gsucs>~0.1 s</span><span class="metrics__label" data-astro-cid-ic3gsucs>배선 추적 1회 (walk layer 위 재귀 SQL 한 번)</span></li><li data-astro-cid-ic3gsucs><span class="metrics__value" data-astro-cid-ic3gsucs>10 / 16</span><span class="metrics__label" data-astro-cid-ic3gsucs>로컬 데모 1회 실행에서 설계대로 답한 테스트 질문</span></li></ul><dl data-astro-cid-4qnrviu5><div data-astro-cid-4qnrviu5><dt data-astro-cid-4qnrviu5>역할</dt><dd data-astro-cid-4qnrviu5>도면 파싱, 지식 그래프 스키마, 그래프 저장소, 도면 에이전트와 도구</dd></div><div data-astro-cid-4qnrviu5><dt data-astro-cid-4qnrviu5>소속</dt><dd data-astro-cid-4qnrviu5>마키나락스</dd></div><div data-astro-cid-4qnrviu5><dt data-astro-cid-4qnrviu5>고객사</dt><dd data-astro-cid-4qnrviu5>노르덱스</dd></div><div data-astro-cid-4qnrviu5><dt data-astro-cid-4qnrviu5>기간</dt><dd data-astro-cid-4qnrviu5>2026.09 – 현재</dd></div><div data-astro-cid-4qnrviu5><dt data-astro-cid-4qnrviu5>유형</dt><dd data-astro-cid-4qnrviu5>고객사 프로젝트</dd></div><div class="facts__stack" data-astro-cid-4qnrviu5><dt data-astro-cid-4qnrviu5>기술 스택</dt><dd data-astro-cid-4qnrviu5><ul class="tags" data-astro-cid-4qnrviu5><li data-astro-cid-4qnrviu5>Python</li><li data-astro-cid-4qnrviu5>PostgreSQL (recursive SQL)</li><li data-astro-cid-4qnrviu5>EPLAN PDF / XML export</li><li data-astro-cid-4qnrviu5>gpt-5.4-mini</li></ul></dd></div></dl></section><div class="prose" data-astro-cid-4qnrviu5><h2 id="eplan-도면-읽기">EPLAN 도면 읽기</h2>
+<p>현장 질문 중 상당수는 배선에 관한 것입니다. 이 팬은 어디서 전원을 받는지, 차단기가 트립되면 무엇이 꺼지는지 같은 질문입니다. 답은 전기 도면에 있지만 도면은 데이터가 아닙니다. 모델링에 앞서 EPLAN이 회로를 어떻게 그리고 내보내는지부터 익혔습니다.</p>
+<ul>
+<li><strong>PDF</strong>: 이번 도면은 회로도, 단선도, 단자도/부품 목록 같은 자동 생성 리포트를 합쳐 418쪽이었습니다. PDF에는 전선도 핀도 없고, 선, 도형, 좌표 위의 텍스트만 있습니다. 대신 EPLAN이 북마크, 표제란, 리포트 표를 함께 써 넣기 때문에 어떤 장치가 어디에 있는지는 알 수 있습니다.</li>
+<li><strong>XML export</strong>: 모든 연결이 양 끝까지 들어 있지만 쪽 번호와 부품 정보가 없습니다. 제가 받은 export는 도면보다 revision이 하나 앞서 있었습니다.</li>
+<li><strong>엔지니어</strong>: 엔지니어는 답을 보고 바로 계측기를 듭니다. 틀린 핀을 알려 주느니 “모름”이 낫고, 모든 값은 도면 위 위치를 출처로 가져야 합니다.</li>
+</ul>
+<p>이렇게 파악한 내용을 entity 18종, fact 82종, 불변식 24개로 된 스키마로 정리했습니다.</p>
+<h2 id="my-contribution">My contribution</h2>
+<p>팀 프로젝트였고, 고장 진단 에이전트와 가드레일은 팀이 맡았습니다. EPLAN과 관련된 일은 전부 제가 맡았습니다.</p>
+<ul>
+<li>PDF와 XML export를 읽는 reader</li>
+<li>지식 그래프 스키마와 빌더</li>
+<li>PostgreSQL 저장소와 walk layer, DB 3종 비교</li>
+<li>도면 에이전트와 도구 7개 (팀 에이전트 안에서 subagent 도구로 실행)</li>
+<li>도면을 올리면 그래프를 만들고 질문에 답하는 로컬 데모</li>
+</ul>
+<p>팀의 진단 경로 LLM judge도 튜닝했습니다. 출력 스키마에서 판단 이유를 라벨보다 앞에 두고, 항목마다 따로 채점하게 바꿨습니다. 체인 경로 35개에서 전체 정확도는 65% → 75%, 체인은 64% → 81%, 원인은 75% → 92%로 올랐습니다.</p>
+<h2 id="도면에서-지식-그래프로">도면에서 지식 그래프로</h2>
+<p>빌더는 비전 모델 없이 결정적 규칙으로만 동작합니다. 같은 입력으로 두 번 실행하면 바이트 단위로 같은 파일이 나옵니다.</p>
+<figure class="flow" data-astro-cid-gemfbn6y><ol class="flow__groups" data-astro-cid-gemfbn6y><li class="flow__group" data-astro-cid-gemfbn6y><p class="flow__group-title" data-astro-cid-gemfbn6y>읽기</p><ol class="flow__steps" data-astro-cid-gemfbn6y><li class="flow__step" data-astro-cid-gemfbn6y><span class="flow__num" aria-hidden="true" data-astro-cid-gemfbn6y>1</span><div class="flow__body" data-astro-cid-gemfbn6y><p class="flow__title" data-astro-cid-gemfbn6y>reader 9개로 PDF 읽기</p></div></li><li class="flow__step" data-astro-cid-gemfbn6y><span class="flow__num" aria-hidden="true" data-astro-cid-gemfbn6y>2</span><div class="flow__body" data-astro-cid-gemfbn6y><p class="flow__title" data-astro-cid-gemfbn6y>전선 끝에 핀 붙이기</p><p class="flow__detail" data-astro-cid-gemfbn6y>맞닿은 선들은 net이 됩니다. 전선 끝마다 가장 가까운 빈 핀 라벨을 Sure 또는 Weak로 가져가고, 맞는 라벨이 없으면 “핀 모름”으로 남깁니다.</p></div></li></ol></li><li class="flow__group" data-astro-cid-gemfbn6y><p class="flow__group-title" data-astro-cid-gemfbn6y>모델링</p><ol class="flow__steps" data-astro-cid-gemfbn6y><li class="flow__step" data-astro-cid-gemfbn6y><span class="flow__num" aria-hidden="true" data-astro-cid-gemfbn6y>3</span><div class="flow__body" data-astro-cid-gemfbn6y><p class="flow__title" data-astro-cid-gemfbn6y>Entity와 fact로 매핑, 검증</p><p class="flow__detail" data-astro-cid-gemfbn6y>이름 붙은 규칙 31개로 fact를 더 도출합니다. 불변식은 빌더가 파일을 쓰기 전에 확인하고, 로더가 적재할 때 한 번 더 확인합니다.</p></div></li></ol></li><li class="flow__group" data-astro-cid-gemfbn6y><p class="flow__group-title" data-astro-cid-gemfbn6y>export 병합 (있을 때만)</p><ol class="flow__steps" data-astro-cid-gemfbn6y><li class="flow__step" data-astro-cid-gemfbn6y><span class="flow__num" aria-hidden="true" data-astro-cid-gemfbn6y>4</span><div class="flow__body" data-astro-cid-gemfbn6y><p class="flow__title" data-astro-cid-gemfbn6y>양쪽에 찍힌 이름으로 맞추고 쪽마다 revision 확인</p><p class="flow__detail" data-astro-cid-gemfbn6y>export는 fact를 확인하거나 보충하고, revision이 일치한 쪽의 Weak 값만 대체합니다.</p></div></li></ol></li></ol><p class="flow__output" data-astro-cid-gemfbn6y><span class="flow__output-label" data-astro-cid-gemfbn6y>결과물</span> 모든 fact가 PDF 쪽 위의 사각형을 출처로 가지는 그래프</p><figcaption data-astro-cid-gemfbn6y>무엇이 있는지는 북마크가, 무엇이 무엇에 연결되는지는 도면이 알려 줍니다.</figcaption></figure>
+<p>entity에는 종류와 도면에 찍힌 이름만 둡니다. 나머지 주장은 전부 fact이고, fact마다 근거, 확신도(Sure 또는 Weak), 적용 조건, 출처가 붙습니다. 이 구조 덕분에 그래프는 추측하지 않고, 불확실한 값에는 라벨을 붙이고, 두 자료가 충돌하면 두 값을 모두 남깁니다.</p>
+<figure class="table-figure table-figure--keep-words" data-astro-cid-jjja2vh4><div class="table-figure__scroll" role="region" aria-labelledby="table-sgyzbg" tabindex="0" data-astro-cid-jjja2vh4><table>
+<thead>
+<tr>
+<th>그래프</th>
+<th style="text-align:right">Entity</th>
+<th style="text-align:right">Fact</th>
+<th style="text-align:right">핀 모름 전선 끝</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PDF만</td>
+<td style="text-align:right">20,867</td>
+<td style="text-align:right">87,975</td>
+<td style="text-align:right">1,736</td>
+</tr>
+<tr>
+<td>PDF + export</td>
+<td style="text-align:right">24,221</td>
+<td style="text-align:right">113,675</td>
+<td style="text-align:right">1,456</td>
+</tr>
+</tbody>
+</table></div><figcaption id="table-sgyzbg" data-astro-cid-jjja2vh4>418쪽 도면으로 만든 그래프. PDF만 쓴 그래프에서 기호에 닿은 전선 끝은 5,031개입니다.</figcaption></figure>
+<p>export로 fact 30,215개를 확인했고, Weak 462개를 Sure로 바꿨습니다. 전선 끝 이름은 개발에만 쓴 배선 목록과도 비교했습니다. 양 끝이 모두 Sure인 전선은 98.1%가 일치했습니다.</p>
+<h2 id="전위-기반-walk-layer">전위 기반 walk layer</h2>
+<p>fact 그래프는 배선을 아주 잘게 쪼개 둡니다. 배선 질문 하나가 fact 수천 개를 거치고, 그대로 두면 도구마다 전기 규칙을 따로 적용해야 합니다. 저는 회로의 기본 성질로 더 작은 레이어를 만들었습니다. 접점 없이 이어진 도체는 모두 같은 전위에 있고, 두 전위를 가를 수 있는 것은 접점, 차단기 극, 단로 단자뿐입니다.</p>
+<p>적재할 때 저장소가 도체를 전위 단위로 묶고, 접점/차단기 극/단로 단자를 crossing으로 기록합니다. 약 88,000개의 fact가 전위 2,595개와 crossing 1,166개로 줄었습니다. 배선 질문은 이제 전위에서 전위로 건너가는 walk가 됩니다. 추적 한 번은 재귀 SQL 쿼리 하나이고 약 0.1초가 걸립니다. 배선 도구 네 개가 모두 이 레이어를 읽기 때문에 전기 규칙도 한 벌만 관리하면 됩니다.</p>
+
+<h3 id="그래프-db-대신-postgresql">그래프 DB 대신 PostgreSQL</h3>
+<dl class="decision" data-astro-cid-w7gg4gwe><div class="decision__row" data-astro-cid-w7gg4gwe><dt data-astro-cid-w7gg4gwe>제약</dt><dd data-astro-cid-w7gg4gwe>walk는 길이가 정해져 있지 않고, 모선이나 부하, 핀 모름 끝에서 멈춰야 합니다. 추적은 접점 8개를 넘으면 멈춥니다.</dd></div><div class="decision__row" data-astro-cid-w7gg4gwe><dt data-astro-cid-w7gg4gwe>검토한 대안</dt><dd data-astro-cid-w7gg4gwe>Apache AGE(PostgreSQL 위의 Cypher), Neo4j, 재귀 SQL을 쓰는 일반 PostgreSQL. 셋 다 직접 측정했습니다.</dd></div><div class="decision__row decision__row--choice" data-astro-cid-w7gg4gwe><dt data-astro-cid-w7gg4gwe>선택</dt><dd data-astro-cid-w7gg4gwe>walk layer를 둔 일반 PostgreSQL을 골랐습니다. AGE는 가변 길이 경로 탐색을 중간에 멈출 수 없어 20초 타임아웃이 났고, Neo4j는 고가용성, 온라인 백업, 기업용 로그인에 유료 에디션이 필요했습니다.</dd></div><div class="decision__row" data-astro-cid-w7gg4gwe><dt data-astro-cid-w7gg4gwe>감수한 비용</dt><dd data-astro-cid-w7gg4gwe>벤치마크에서 추적은 Neo4j가 더 빨랐습니다(5~7 ms 대 11~57 ms). 전기 규칙을 바꾸면 walk layer를 다시 만들어야 합니다.</dd></div></dl>
+<h2 id="배선을-따라가며-답하는-에이전트">배선을 따라가며 답하는 에이전트</h2>
+<p>모델은 SQL을 쓰지 않고, 답에 들어가는 값도 쓰지 않습니다. 도구 7개 중 하나를 고르고 사용자의 말을 그대로 넘길 뿐입니다. 이름 해석, 배선 탐색, 출처 첨부는 코드가 합니다. 도구마다 정해진 읽기 전용 SQL을 시간 제한을 걸고 실행합니다.</p>
+<p>설명, 찾기, 쪽 도구는 장치, 문구, 도면 쪽을 찾아 보여 주고, 슬롯 도구는 카드의 포트 구성을 보여 줍니다. 나머지 세 도구는 crossing을 하나씩 건너며 논리적으로 답을 찾습니다.</p>
+<ul>
+<li><strong>추적</strong>: 부하에서 거슬러 올라가 전원을 공급하거나 스위칭하는 지점까지 탐색</li>
+<li><strong>영향</strong>: 차단기 극에서 아래로 내려가며 차단기가 트립될 때 전원이 끊기는 부하를 수집</li>
+<li><strong>측정</strong>: 의심 경로에서 마지막 정상 지점과 첫 이상 지점의 중간을 다음 측정 지점으로 제안, 전원을 끈 상태의 점검을 먼저 배치</li>
+</ul>
+<p>코드는 모델이 정해진 형식으로 돌려준 답을 검사하고 카드, 체인, 영향 트리, 다음 측정 지점 같은 블록을 만듭니다. 검사에 두 번 실패하면 정해진 안전한 답으로 끝냅니다. 알람 코드처럼 도면으로 답할 수 없는 질문에는 어디를 봐야 하는지 정해진 답을 줍니다.</p>
+<figure class="table-figure table-figure--keep-words" data-astro-cid-jjja2vh4><div class="table-figure__scroll" role="region" aria-labelledby="table-1736r8l" tabindex="0" data-astro-cid-jjja2vh4><table>
+<thead>
+<tr>
+<th>실행일</th>
+<th>그래프</th>
+<th style="text-align:right">질문</th>
+<th style="text-align:right">설계대로</th>
+<th style="text-align:right">부분적</th>
+<th style="text-align:right">실패</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-10-26</td>
+<td>PDF만</td>
+<td style="text-align:right">16</td>
+<td style="text-align:right">10</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">2</td>
+</tr>
+<tr>
+<td>2026-10-29</td>
+<td>PDF + export</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">1</td>
+<td style="text-align:right">0</td>
+</tr>
+</tbody>
+</table></div><figcaption id="table-1736r8l" data-astro-cid-jjja2vh4>MVP 시나리오 질문을 로컬 데모로 실행한 결과. 질문마다 한 번씩 실행했습니다.</figcaption></figure>
+<p>턴당 응답 시간 중앙값은 10.4초였고, 도구는 8~720 ms, 나머지는 모델 호출 시간이었습니다. 실패한 두 건은 모두 “두 번째 캐비닛의 팬들”처럼 종류를 가리키는 표현에서 나온 도구 선택 오류였습니다. 모델이 사용자의 말 대신 도면에 찍힌 이름을 넘겼습니다. 같은 말을 추적 도구에 직접 넣으면 기대한 체인이 나왔습니다. 이제 약점은 실행마다 달라지는 모델의 도구 선택입니다.</p>
+<h2 id="현황과-다음-단계">현황과 다음 단계</h2>
+<p>지금은 로컬 데모 단계이고, 현장 엔지니어가 쓰고 있지는 않습니다. 그래프로 만든 도면은 하나뿐이고, 모든 수정은 한 번씩만 실행해 확인했습니다. reader 규칙이 EPLAN의 PDF 배치 방식에 기대고 있어서 템플릿이 다르면 오류 없이 깨질 수 있습니다. 엔지니어의 스키마 검토와 호스팅도 남아 있습니다.</p>
+<p>일의 대부분은 파싱보다 그래프가 무엇을 주장해도 되는지 정하는 일이었습니다. 다음에는 시나리오 질문을 반복 실행하는 검사를 붙이고, 두 번째 도면으로 그래프를 만들고, 알람 코드 질문에 별도 경로를 주려 합니다.</p></div><nav class="related no-print" aria-labelledby="related-title" data-astro-cid-4qnrviu5><h2 id="related-title" class="related__title" data-astro-cid-4qnrviu5>다른 프로젝트</h2><ul data-astro-cid-4qnrviu5><li data-astro-cid-4qnrviu5><a href="/ko/projects/nuclear-drawing-diff-detection" data-astro-cid-4qnrviu5>두산에너빌리티 원자력 기기 도면 변경점 검출 시스템</a><span class="meta" data-astro-cid-4qnrviu5> — 마키나락스 · 두산에너빌리티 · 2026.07 – 현재</span></li><li data-astro-cid-4qnrviu5><a href="/ko/projects/hyundai-ev-quality-agent" data-astro-cid-4qnrviu5>현대자동차 울산 EV 품질 관리 에이전트</a><span class="meta" data-astro-cid-4qnrviu5> — 마키나락스 · 현대자동차그룹 · 2026.06 – 2026.10</span></li><li data-astro-cid-4qnrviu5><a href="/ko/projects/semiconductor-experiment-data-agent" data-astro-cid-4qnrviu5>주성엔지니어링 폐쇄망 실험 보고서 검색 에이전트</a><span class="meta" data-astro-cid-4qnrviu5> — 마키나락스 · 주성엔지니어링 · 2026.03 – 2026.07</span></li></ul><p data-astro-cid-4qnrviu5><a href="/ko/projects" data-astro-cid-4qnrviu5>전체 프로젝트 →</a></p></nav></div><aside class="toc no-print" data-astro-cid-4qnrviu5><nav aria-labelledby="toc-title" data-toc data-astro-cid-4qnrviu5><p id="toc-title" class="toc__title" data-astro-cid-4qnrviu5>목차</p><ol data-astro-cid-4qnrviu5><li data-astro-cid-4qnrviu5><a href="#eplan-도면-읽기" data-astro-cid-4qnrviu5>EPLAN 도면 읽기</a></li><li data-astro-cid-4qnrviu5><a href="#my-contribution" data-astro-cid-4qnrviu5>My contribution</a></li><li data-astro-cid-4qnrviu5><a href="#도면에서-지식-그래프로" data-astro-cid-4qnrviu5>도면에서 지식 그래프로</a></li><li data-astro-cid-4qnrviu5><a href="#전위-기반-walk-layer" data-astro-cid-4qnrviu5>전위 기반 walk layer</a></li><li data-astro-cid-4qnrviu5><a href="#배선을-따라가며-답하는-에이전트" data-astro-cid-4qnrviu5>배선을 따라가며 답하는 에이전트</a></li><li data-astro-cid-4qnrviu5><a href="#현황과-다음-단계" data-astro-cid-4qnrviu5>현황과 다음 단계</a></li></ol><span class="toc__indicator" aria-hidden="true" data-toc-indicator data-astro-cid-4qnrviu5></span><a class="toc__top" href="#main" data-astro-cid-4qnrviu5><span aria-hidden="true" data-astro-cid-4qnrviu5>↑</span> 맨 위로</a></nav></aside></div></article></main><footer class="site-footer" data-astro-cid-jo6i4kqk><div class="container site-footer__inner" data-astro-cid-jo6i4kqk><p class="site-footer__name" data-astro-cid-jo6i4kqk><span class="site-footer__mark" aria-hidden="true" data-astro-cid-jo6i4kqk>JL</span>© 2026 이진호</p><ul data-astro-cid-jo6i4kqk><li data-astro-cid-jo6i4kqk><a href="mailto:0416roylee@gmail.com" data-astro-cid-jo6i4kqk>0416roylee@gmail.com</a></li><li data-astro-cid-jo6i4kqk><a href="https://github.com/jinroylee" rel="me" data-astro-cid-jo6i4kqk>GitHub</a></li></ul><p class="muted site-footer__note" data-astro-cid-jo6i4kqk>Astro로 만들었습니다.</p><a class="site-footer__top no-print" href="#main" data-astro-cid-jo6i4kqk>맨 위로<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" data-astro-cid-jo6i4kqk><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-jo6i4kqk></path></svg></a></div></footer></body></html><script type="module">var e=matchMedia(`(hover: hover) and (pointer: fine)`),t=matchMedia(`(prefers-reduced-motion: reduce)`);if(e.matches&&!t.matches){let e=null,t=0,n=0,r=!1,i=()=>{if(r=!1,!e)return;let i=e.getBoundingClientRect();e.style.setProperty(`--mx`,`${t-i.left}px`),e.style.setProperty(`--my`,`${n-i.top}px`)};document.addEventListener(`pointermove`,a=>{e=a.target instanceof Element?a.target.closest(`[data-glow]`):null,t=a.clientX,n=a.clientY,e&&!r&&(r=!0,requestAnimationFrame(i))},{passive:!0})}</script><script type="module">var e=document.querySelector(`[data-anchor-label]`);if(e){let t=e.dataset.anchorLabel??``,n=e.dataset.anchorDone??``,r=document.createElement(`p`);r.className=`sr-only`,r.setAttribute(`aria-live`,`polite`),e.append(r);for(let i of e.querySelectorAll(`.prose :is(h2, h3)[id]`)){let e=document.createElement(`a`);e.className=`anchor`,e.href=`#${i.id}`,e.dataset.done=n,e.setAttribute(`aria-label`,`${t}: ${i.textContent?.trim()??``}`),e.innerHTML=`<svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M6.6 9.4a2.6 2.6 0 0 0 3.7 0l2.3-2.3a2.6 2.6 0 0 0-3.7-3.7l-.8.8M9.4 6.6a2.6 2.6 0 0 0-3.7 0L3.4 8.9a2.6 2.6 0 0 0 3.7 3.7l.8-.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`;let a;e.addEventListener(`click`,async t=>{if(!navigator.clipboard)return;t.preventDefault();let o=`${location.origin}${location.pathname}#${i.id}`;try{await navigator.clipboard.writeText(o)}catch{location.hash=i.id;return}history.replaceState(null,``,`#${i.id}`),e.dataset.state=`done`,r.textContent=n,clearTimeout(a),a=window.setTimeout(()=>{delete e.dataset.state,r.textContent=``},1600)}),i.append(e)}}var t=document.querySelector(`[data-toc]`);if(t){let e=[...t.querySelectorAll(`ol a`)].flatMap(e=>{let t=document.getElementById(decodeURIComponent(e.hash.slice(1)));return t?[{link:e,heading:t}]:[]}),n=!1,r=()=>{n=!1;let t=innerHeight*.3,r=-1;e.forEach(({heading:e},n)=>{e.getBoundingClientRect().top<=t&&(r=n)}),r>=0&&innerHeight+scrollY>=document.documentElement.scrollHeight-4&&(r=e.length-1),e.forEach(({link:e},t)=>{t===r?e.setAttribute(`aria-current`,`true`):e.removeAttribute(`aria-current`)}),o(r>=0?e[r].link:null)},i=t.querySelector(`[data-toc-indicator]`),a=null,o=e=>{if(e===a)return;if(!e){i.removeAttribute(`data-on`),a=null;return}let n=t.getBoundingClientRect(),r=e.getBoundingClientRect();a||i.setAttribute(`data-instant`,``),i.style.setProperty(`--y`,`${r.top-n.top}px`),i.style.setProperty(`--h`,`${r.height}px`),i.style.setProperty(`--x`,`${r.left-n.left-2}px`),i.offsetWidth,i.removeAttribute(`data-instant`),i.setAttribute(`data-on`,``),a=e};addEventListener(`resize`,()=>{a=null,r()}),addEventListener(`scroll`,()=>{n||(n=!0,requestAnimationFrame(r))},{passive:!0}),r()}</script>
